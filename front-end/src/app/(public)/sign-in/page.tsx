@@ -58,7 +58,7 @@ export default function SignIn() {
           <div className="grid grid-cols-12 gap-3 mb-3">
             <div className="col-span-12 space-y-2">
               <Label htmlFor="cpf">CPF:</Label>
-              <Input id="cpf" autoComplete="off" type="text" {...register("cpf")} />
+              <Input id="cpf" autoComplete="off" type="text" {...register("cpf")} maxLength={11} />
               {errors.cpf && <p className="text-red-500 text-sm">{errors.cpf.message}</p>}
             </div>
             <div className="col-span-12 space-y-2">
