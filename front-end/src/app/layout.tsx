@@ -1,5 +1,10 @@
+"use client"; 
+
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -17,11 +22,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
         <meta name="robots" content="index, follow" />
         <title>{title}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="favicon.ico" />
       </head>
       <body className="font-poppins bg-gray-100">
-        <Toaster position="top-right"/>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <Toaster position="top-right" />
+          {children}
+        </QueryClientProvider>
       </body>
     </html>
   );

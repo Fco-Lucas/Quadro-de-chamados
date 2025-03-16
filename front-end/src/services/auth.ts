@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/api";
+import apiClient from "@/lib/api";
 
 export interface LoginData {
   cpf: string;
@@ -9,9 +9,7 @@ export interface LoginResponse {
   token: string;
 }
 
-export async function loginUser(data: LoginData) {
-  return apiFetch<LoginResponse>("/auth", {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
+export async function login(data: LoginData): Promise<LoginResponse> {
+  const response = await apiClient.post("/auth", data);
+  return response.data;
 }
