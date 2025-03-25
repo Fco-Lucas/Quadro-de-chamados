@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/themeProvider";
+import { QueryClientProvider } from "@/providers/queryClientProvider";
 
 export const metadata: Metadata = {
   title: "Quadro de chamados",
@@ -18,10 +19,12 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <head />
         <body className="bg-background text-foreground antialiased">
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange> 
-            {children}
-            <Toaster position="top-right" richColors />
-          </ThemeProvider>
+          <QueryClientProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange> 
+              {children}
+              <Toaster position="top-right" richColors />
+            </ThemeProvider>
+          </QueryClientProvider>
         </body>
       </html>
     </>
