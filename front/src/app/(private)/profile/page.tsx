@@ -6,8 +6,10 @@ export default function Profile() {
     <main className="p-4 sm:p-6 w-full max-w-full overflow-x-hidden">
       <header className="flex justify-between items-center">
         <p className="text-2xl font-bold mb-3">Editar perfil</p>
-        <ColorSchemeToggle />
-        <ThemeModeToogle />
+        <div className="flex gap-2">
+          <ColorSchemeToggle />
+          <ThemeModeToogle />
+        </div>
       </header>
     </main>
   )
