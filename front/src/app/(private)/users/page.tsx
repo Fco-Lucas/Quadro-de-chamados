@@ -44,7 +44,7 @@ export default function Users() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:flex gap-2">
               {/* Nome - linha inteira mobile, depois automático */}
               <div className="col-span-1 sm:col-span-2 md:w-auto">
-                <Input name="name" placeholder="Nome" className="min-w-[150px]" />
+                <Input name="name" placeholder="Nome" className="min-w-[150px]" autoComplete="off" />
               </div>
 
               {/* CPF - metade mobile, automático desktop */}
