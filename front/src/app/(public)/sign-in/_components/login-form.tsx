@@ -13,24 +13,38 @@ import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 
 const loginSchema = z.object({
-  cpf: z.string().min(11, { message: "O CPF deve ter 11 caracteres" }),
+  cpf: z.string().min(11, { message: "O CPF deve ter 11 números" }).max(14, { message: "O CPF deve ter no máximo 14 caracteres" }),
   password: z.string().min(6, { message: "A senha deve ter no mínimo 6 caracteres" }),
-})
+});
 
 type LoginSchema = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginSchema>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
 
-  const router = useRouter();
+  const router = useRouter()
+
+  // Função para formatar o CPF durante a digitação
+  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, "") // Remove tudo que não for número
+
+    // Aplica a máscara dinamicamente
+    if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, "$1.$2")
+    if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+    if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4")
+
+    setValue("cpf", value) // Atualiza o valor no form
+  }
 
   async function onSubmit(data: LoginSchema) {
     try {
+      const cleanedCpf = data.cpf.replace(/\D/g, "") // Remove a máscara antes de enviar
+      console.log(cleanedCpf)
       const resp = await apiServer<{ token: string }>("POST", "/auth", {
-        body: JSON.stringify(data)
-      });
+        body: JSON.stringify({ ...data, cpf: cleanedCpf })
+      })
       Cookies.set("authToken", resp.token, { expires: 1 })
       router.push("/")
     } catch (err: any) {
@@ -49,7 +63,7 @@ export function LoginForm() {
           <div className="grid grid-cols-12 gap-3 mb-3">
             <div className="col-span-12 space-y-2">
               <Label htmlFor="cpf">CPF:</Label>
-              <Input id="cpf" autoComplete="off" type="text" {...register("cpf")} maxLength={11} />
+              <Input id="cpf" autoComplete="off" type="text" maxLength={14} {...register("cpf")} onChange={handleCpfChange}/>
               {errors.cpf && <p className="text-red-500 text-sm">{errors.cpf.message}</p>}
             </div>
             <div className="col-span-12 space-y-2">
