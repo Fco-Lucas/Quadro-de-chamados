@@ -23,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public JwtToken getTokenAuthenticated(String cpf) {
-        UserRole role = userService.getRoleByCpf(cpf);
-        return JwtUtils.createToken(cpf, role.name());
+        AppUser appUser = userService.getUserByCpf(cpf);
+        return JwtUtils.createToken(appUser.getId(), cpf, appUser.getRole().name());
     }
 }
