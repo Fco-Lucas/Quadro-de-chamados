@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 // Configuração centralizada
 const API_CONFIG = {
-  baseURL: process.env.NEXT_PUBLIC_API_URL
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
 };
 
 // Função para tratar erros de forma consistente

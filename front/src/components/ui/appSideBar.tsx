@@ -24,7 +24,7 @@ import { DetailedSidebarSkeleton } from "../skeletons/detailedSidebarSkeleton";
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Chamados",
     url: "/",
     icon: Home,
     permission: ["ADMIN", "SUPERVISOR", "USER"] // Todos podem acessar
